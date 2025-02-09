@@ -6,7 +6,6 @@ import User from "../models/User.js";
 const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || "your_secret_key";
 
-// 🔹 Register User
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -15,10 +14,8 @@ router.post("/register", async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: "User already exists" });
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Save user
     user = new User({ name, email, password: hashedPassword });
     await user.save();
 
@@ -28,7 +25,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// 🔹 Login User
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -37,7 +33,6 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
-    // Compare passwords
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -50,7 +45,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// 🔹 Guest Login (Limited Access)
+//Guest Login (Limited Access)
 router.post("/guest-login", async (req, res) => {
   try {
     const guestUser = {

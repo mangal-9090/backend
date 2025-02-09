@@ -41,7 +41,6 @@ app.get("/", (req, res) => {
   res.send("Backend is running...");
 });
 
-// Store attendees count in-memory
 let attendeesCount = 0;
 
 // Handle WebSocket Connections

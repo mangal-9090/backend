@@ -3,7 +3,6 @@ import Event from "../models/Event.js";
 
 const router = express.Router();
 
-// 🔹 Create an Event
 router.post("/", async (req, res) => {
   try {
     const event = new Event(req.body);
@@ -14,7 +13,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// 🔹 Get All Events
 router.get("/", async (req, res) => {
   try {
     const events = await Event.find();
@@ -24,7 +22,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-// 🔹 Get a Single Event by ID
 router.get("/:id", async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
@@ -35,7 +32,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// 🔹 Update an Event
+//Update an Event
 router.put("/:id", async (req, res) => {
   try {
     const event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -45,7 +42,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-// 🔹 Delete an Event
+//Delete an Event
 router.delete("/:id", async (req, res) => {
   try {
     await Event.findByIdAndDelete(req.params.id);
