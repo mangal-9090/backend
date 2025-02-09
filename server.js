@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
 import eventRoutes from "./routes/eventRoutes.js";
-import authRoutes from "./routes/authRoutes.js";  // ✅ Import auth routes
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -30,12 +30,12 @@ app.use(express.json());
 
 // Connect MongoDB
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("✅ MongoDB Connected"))
-  .catch(err => console.log("❌ MongoDB Connection Error:", err));
+  .then(() => console.log(" MongoDB Connected"))
+  .catch(err => console.log(" MongoDB Connection Error:", err));
 
 // Use Routes
 app.use("/api/events", eventRoutes);
-app.use("/api/auth", authRoutes);  // ✅ Add authentication routes
+app.use("/api/auth", authRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend is running...");
@@ -46,7 +46,7 @@ let attendeesCount = 0;
 
 // Handle WebSocket Connections
 io.on("connection", (socket) => {
-  console.log("🔗 New Client Connected:", socket.id);
+  console.log(" New Client Connected:", socket.id);
 
   // Send current attendee count to the new client
   socket.emit("attendeeCount", attendeesCount);
@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
   // When a new attendee joins
   socket.on("joinEvent", () => {
     attendeesCount++;
-    console.log(`🟢 Attendee Joined | Total: ${attendeesCount}`);
+    console.log(` Attendee Joined | Total: ${attendeesCount}`);
     
     //  Broadcast the updated count to all clients
     io.emit("attendeeCount", attendeesCount);
@@ -63,7 +63,7 @@ io.on("connection", (socket) => {
   //  When an attendee leaves
   socket.on("leaveEvent", () => {
     if (attendeesCount > 0) attendeesCount--;
-    console.log(`🔴 Attendee Left | Total: ${attendeesCount}`);
+    console.log(` Attendee Left | Total: ${attendeesCount}`);
 
     //  Broadcast the updated count
     io.emit("attendeeCount", attendeesCount);
@@ -71,7 +71,7 @@ io.on("connection", (socket) => {
 
   //  Handle Client Disconnect
   socket.on("disconnect", () => {
-    console.log("❌ Client Disconnected:", socket.id);
+    console.log(" Client Disconnected:", socket.id);
   });
 });
 
